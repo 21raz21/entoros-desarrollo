@@ -50,39 +50,116 @@
 
 1. Muestra el título del videojuego.
 
+for $game in /videojuego
+return $game/titulo/text()
+
 2. Muestra la plataforma del videojuego.
+
+for $game in /videojuego
+return $game/plataforma/text()
 
 3. Muestra el nombre de todos los agentes.
 
+for $game in //agente
+return $game/nombre/text()
+
 4. Muestra el nombre y la habilidad ultimate de todos los agentes.
+
+for $game in //agente
+return <game>
+  <nombre>{$game/nombre/text()}</nombre>
+  <hab_ulti>{$game/habilidadUltimate/text()}</hab_ulti>
+</game>
 
 5. Muestra los nombres de los agentes cuya habilidad primaria es "Incendiario".
 
+for $game in //agente
+where starts-with($game/habilidadUltimate,"Incendiario")
+return $game/nombre
+
 6. Muestra los nombres de los agentes cuya habilidad ultimate es "Fénix".
+
+for $game in //agente
+where starts-with($game/habilidadUltimate,"Fénix")
+return $game/nombre
 
 7. Muestra las habilidades primarias de los agentes cuyo nombre empieza por "J".
 
+for $game in //agente
+where starts-with($game/nombre,"J")
+return $game/habilidadPrimaria/text()
+
 8. Muestra los nombres de los agentes cuyas habilidades primarias empiezan por "Bola".
+
+for $game in //agente
+where starts-with($game/habilidadPrimaria,"Bola")
+return $game/nombre/text()
 
 9. Muestra los nombres de todos los agentes en orden alfabético.
 
+for $game in //agente
+order by $game/nombre
+return $game/nombre/text()
+
 10. Muestra las habilidades primarias y secundarias de los agentes cuyo nombre contiene la letra "y".
+
+for $game in //agente
+where contains($game/nombre,"y")
+return <game>
+  <hab_prim>{$game/habilidadPrimaria/text()}</hab_prim>
+  <hab_sec>{$game/habilidadSecundaria/text()}</hab_sec>
+ </game>
 
 11. Muestra los nombres de los agentes cuya habilidad ultimate contiene la palabra "cuchillos".
 
+for $game in //agente
+where contains($game/habilidadUltimate,"Cuchillos")
+return $game/nombre/text()
+
 12. Muestra las habilidades primarias de los agentes cuyo nombre contiene la letra "o" y la habilidad secundaria contiene la palabra "humo".
+
+for $game in //agente
+where contains($game/nombre,"o") and contains($game/habilidadSecundaria,"humo")
+return <game>
+  <hab_prim>{$game/habilidadPrimaria/text()}</hab_prim>
+  <hab_sec>{$game/habilidadSecundaria/text()}</hab_sec>
+ </game>
 
 13. Muestra los nombres de los agentes que tienen exactamente tres habilidades.
 
+for $game in //agente
+where count($game/*[contains(local-name(),"habilidad")])=3
+return $game/nombre/text()
+
 14. Muestra los nombres de los agentes cuya habilidad secundaria no es "Granada Cegadora".
+
+for $game in //agente
+where not(contains($game/habilidadSecundaria,"Granada Cegadora"))
+return $game/nombre/text()
 
 15. Muestra las habilidades primarias de los agentes cuyos nombres no contienen la letra "e".
 
+for $game in //agente
+where not(contains($game/nombre,"e"))
+return $game/habilidadPrimaria/text()
+
 16. Muestra los nombres de los agentes cuyas habilidades primarias contienen la palabra "muro" o la palabra "barrera".
+
+for $game in //agente
+where contains($game/habilidadPrimaria,"muro")and contains(habiliadadPrimaria,"barrera")
+return $game/nombre
 
 17. Muestra las habilidades ultimates de los agentes en orden alfabético inverso.
 
+for $game in //agente
+order by($game/habilidadUltimate) descending
+return $game/habilidadUltimate/text()
+
 18. Muestra los nombres de los agentes cuya habilidad ultimate tiene una duración mayor a 8 segundos.
+
+for $game in //agente
+where $game/habilidadUltimate/@duracion > 8
+return $game/nombre/text()
 
 19. Muestra el nombre del agente con la habilidad ultimate más corta.
 
@@ -90,4 +167,12 @@
 
 21. Muestra el nombre de los agentes que tienen habilidades primarias y secundarias que pertenecen al mismo tipo.
 
+for $game in //agente
+where contains($game/habilidadPrimaria/@tipo,"Daño") and contains($game/habilidadSecundaria/@tipo,"Daño")
+return $game/nombre/text()
+
 22. Muestra los nombres de los agentes cuyas habilidades primarias son de tipo "Daño" y sus habilidades secundarias son de tipo "Curación".
+
+for $game in //agente
+where contains($game/habilidadPrimaria/@tipo,"Daño") and contains($game/habilidadSecundaria/@tipo,"Curación")
+return $game/nombre/text()
